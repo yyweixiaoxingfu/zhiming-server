@@ -52,7 +52,8 @@ cp .env.example .env
 #    按实际环境修改数据库账号与 JWT 密钥
 
 # 3. 准备数据库
-#    创建数据库（utf8mb4），导入初始化 SQL，详见下文「数据库」一节
+#    创建数据库（utf8mb4），导入完整初始化数据（含表结构 + 字典/词库 + 演示内容）：
+mysql -u 用户名 -p 数据库名 < data/databsae.sql
 #    然后生成安装锁文件，跳过安装引导：
 mkdir -p data && touch data/install.lock
 
@@ -84,14 +85,13 @@ php public/start_im.php start
 
 ## 数据库
 
-仓库**不包含**可直接用于生产的初始化数据。部署时请：
+仓库已内置完整的初始化数据：**`data/databsae.sql`**（12.7 MB），包含全部表结构、字典/词库数据（如 `w_sm_*`、`w_give_*`、`w_tarot_*`、`w_qm_zidians` 等）以及演示内容，导入即可完整体验。
 
-1. 从已有环境导出**表结构与字典/词库数据**（如 `w_sm_*`、`w_give_*`、`w_tarot_*`、`w_qm_zidians` 等）；
-2. **剔除所有真实业务数据**：管理员账号与密码哈希、会员手机号 / 邮箱 / 登录 IP、订单、支付与短信配置、AI 密钥、内网地址等；
-3. 将清洗后的文件放入 `docs/` 并在本文件补充说明导入方式。
+```bash
+mysql -u 用户名 -p 数据库名 < data/databsae.sql
+```
 
-> ⚠️ **发布前务必确认**：本地的 `databsae.sql`（12.7 MB）含有真实管理员密码哈希、会员手机号与登录 IP、SMTP 密码、AI 接口密钥及内网 IP。
-> 该文件**不应直接提交到公开仓库**。请清洗后再提交，或将其加入 `.gitignore`。
+> ⚠️ **部署后务必修改以下凭据**：该 SQL 来自实际运行环境，其中的管理员密码哈希、会员记录、SMTP 与短信配置、AI 接口密钥均为原环境数据。导入后请立即到后台修改管理员密码，并重新配置邮件、短信、支付与 AI 相关密钥。
 
 ## 目录结构
 
@@ -99,14 +99,15 @@ php public/start_im.php start
 php/
 ├── application/      # 业务模块（admin / index / ai / member / order / payment ...）
 ├── config/           # 应用配置
+├── data/             # 安装锁 + 完整数据库导出 databsae.sql
 ├── docs/             # 部署文档、缓存方案、二维码
 ├── extend/           # 扩展类库
 ├── plugins/          # 插件
-├── public/           # Web 根目录（index.php、admin.php、静态资源、上传目录）
+├── public/           # Web 根目录（index.php、admin.php、静态资源、uploads 上传目录）
 ├── route/            # 路由定义
 ├── runtime/          # 运行时缓存（已忽略）
 ├── thinkphp/         # 框架核心
-├── vendor/           # Composer 依赖（已忽略）
+├── vendor/           # Composer 依赖（随仓库提供，无需 composer install 即可运行）
 ├── .env.example      # 环境变量模板
 ├── LICENSE           # Apache-2.0
 └── NOTICE            # 第三方组件声明
