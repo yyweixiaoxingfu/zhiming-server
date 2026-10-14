@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>
+        {$web_site_name}
+    </title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/ai/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/ai/css/index.css?v=6.0.2410" />
+    <link rel="stylesheet" href="__STATIC__/ai/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/ai/css/test.css">
+    <link rel="stylesheet" href="__STATIC__/ai/katex/katex.min.css">
+</head>
+
+
+<body>
+    <!-- 主体 -->
+    <div class="home_container home_container">
+        <!-- 左 -->
+        <div class="home_sidebar">
+            <div class="home_sidebar-header">
+                <div class="home_sidebar-title">
+                    {$web_site_name}
+                </div>
+                <div class="home_sidebar-sub-title" id='userpanel' style="display: none;margin-top:10px;width:100%;">
+                    <!-- 剩余 <span id="quota"></span> 积分，<span id="expiretime"></span> 过期 -->
+                </div>
+
+                {if ($main_data['freetryshare'] > 0) }
+
+                <!-- <div class="home_sidebar-sub-title" style="margin-top:10px;width:100%;cursor:pointer;" id="sharebutton">
+                    邀请好友送双方各
+                    {$main_data['freetryshare']} 积分，点击查看详情
+                </div> -->
+                {/if}
+                <div class="home_sidebar-logo no-dark">
+                    <img title="{$web_site_name}" src="{$main_data['headlogo']}" style="width:40px;" />
+                </div>
+            </div>
+            <div class="home_sidebar-header-bar">
+                <button class="button_icon-button button_shadow home_sidebar-bar-button clickable">
+                    <div class="button_icon-button-icon"><i class="layui-icon">&#xe66f;</i></div>
+                    <div class="button_icon-button-text">&nbsp;用户登录</div>
+                </button>
+
+
+            </div>
+
+            <!-- 会话列表 -->
+            <div class="home_sidebar-body"></div>
+
+            <div class="home_sidebar-tail">
+                <div><button id="createchatbutton" class="button_icon-button button_shadow  clickable" role="button">
+                        <div class="button_icon-button-icon"><i class="layui-icon">&#xe61f;</i></div>
+                        <div class="button_icon-button-text">新的聊天</div>
+                    </button></div>
+                <div><button id="chathistorybutton" class="button_icon-button button_shadow  clickable" role="button">
+                        <div class="button_icon-button-icon"><i class="layui-icon">&#xe62d;</i></div>
+                        <div class="button_icon-button-text">全部聊天日志</div>
+                    </button></div>
+            </div>
+        </div>
+        <!-- 右 -->
+        <div class="home_window-content" id="app-body">
+            <div class="home_chat">
+                <input id='role_js' type="hidden" value='{$role_js}'>
+                <div class="window-header">
+                    <div class="window-header-title">
+                        <div class="window-header-main-title">新的聊天</div>
+                        <div class="window-header-sub-title">与
+                            {$web_site_name} 的 <span id='chat_msg_count'>0</span> 条对话
+                        </div>
+                    </div>
+                    <div class="window-actions">
+                        <div class="window-action-button home_mobile">
+                            <button class="button_icon-button button_border  clickable" title="查看消息列表" role="button">
+                                <div class="button_icon-button-icon">
+                                    <i class="layui-icon layui-icon-shrink-right"></i>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="window-action-button" style="display:none;" id="divsharechat">
+                            <button class="button_icon-button button_border clickable" title="导出聊天记录" role="button">
+                                <div class="button_icon-button-icon false"><i class="layui-icon">&#xe641;</i></div>
+                            </button>
+                        </div>
+                        <div class="window-action-button max_min">
+                            <button class="button_icon-button button_border clickable" title="界面展开/收回" role="button">
+                                <div class="button_icon-button-icon">
+                                    <i class="layui-icon layui-icon-screen-full"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chat_prompt-toast"></div>
+                </div>
+
+                <!-- 消息 -->
+                <div class="home_chat-body"></div>
+
+                <!-- 底部配置及输入框 -->
+                <div class="home_chat-input-panel">
+                    <!-- 模型 -->
+                    <div id="model_list_div" class="home_prompt-hints" style="display: none;">
+
+                        <div class="tabs">
+                            <div class="tab-pane">
+                                <input type="radio" name="tab" id="tab01" checked />
+                                <label class="tab-item" for="tab01">
+                                    <i class="layui-icon" style="font-size: 20px;">&#xe63a;</i>&nbsp;智能对话
+                                </label>
+                                <div class="tab-content">
+                                    {volist name="modelArray" id="model"}
+                                    {if !$model.modelisimage}
+                                    <div class="home_prompt-hint modelisimage0" style="margin: 0;"
+                                        onclick="set_model('{$model.modelid}', '{$model.modelvalue}', '{$model.modelisimage}', '{$model.title}', '{$model.modelprice|default=0}')">
+                                        <div class="home_hint-title">
+                                            {$model.title}
+                                            <span style="float: right;">{$model.priceText}</span>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    {/volist}
+                                </div>
+                            </div>
+                            <div class="tab-pane">
+                                <input type="radio" name="tab" id="tab02" />
+                                <label class="tab-item" for="tab02">
+                                    <i class="layui-icon" style="font-size: 20px;">&#xe66a;</i>&nbsp;智能绘图
+                                </label>
+                                <div class="tab-content">
+                                    {volist name="modelArray" id="model"}
+                                    {if condition="$model.modelisimage eq 1 || $model.modelisimage eq 4"}
+                                    <div class="home_prompt-hint modelisimage{$model.modelisimage}" style="margin: 0;"
+                                        onclick="$('#model_list_div').toggle();set_model('{$model.modelid}', '{$model.modelvalue}', '{$model.modelisimage}', '{$model.title}', '{$model.modelprice}')">
+                                        <div class="home_hint-title">
+                                            {$model.title}
+                                            <span style="float: right;">{$model.priceText}</span>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    {/volist}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pc_div" style="display:flex;">
+                            <div class="home_prompt-hints_div" style="box-shadow:2px 2px 2px 2px rgba(0,0,0,.1);margin:10px 0;height:100%;">
+                                <div class="home_hint-title" style="padding: 10px 25px;font-size:18px;"><i class="layui-icon" style="font-size: 20px;">&#xe63a;</i>&nbsp;智能对话</div>
+                                {volist name="modelArray" id="model"}
+                                
+                                {if condition="$model.modelisimage eq 0"}
+                                <div class="home_prompt-hint modelisimage0"
+                                    id="checked_{$model.modelid}_{$model.modelisimage}"
+                                    onclick="$('#model_list_div').toggle();set_model('{$model.modelid}', '{$model.modelvalue}', '{$model.modelisimage}', '{$model.title}', '{$model.modelprice}')">
+                                    <div class="home_hint-title">
+                                        {$model.title}
+                                        <span style="float: right;">{$model.priceText}</span>
+                                    </div>
+                                </div>
+                                {/if}
+                                {/volist}
+                            </div>
+
+                            <div class="home_prompt-hints_div"
+                                style="float: right;box-shadow:2px 2px 2px 2px rgba(0,0,0,.1);margin:10px 1% 10px 3%;height:100%;">
+                                <div class="home_hint-title" style="padding: 10px 25px;font-size:18px;"><i
+                                        class="layui-icon" style="font-size: 20px;">&#xe66a;</i>&nbsp;智能绘图</div>
+                                {volist name="modelArray" id="model"}
+                                {if condition="$model.modelisimage eq 1 || $model.modelisimage eq 4"}
+                                <div class="home_prompt-hint modelisimage{$model.modelisimage}"
+                                    id="checked_{$model.modelid}_{$model.modelisimage}"
+                                    onclick="$('#model_list_div').toggle();set_model('{$model.modelid}','{$model.modelvalue}','{$model.modelisimage}','{$model.title}','{$model.modelprice}')">
+                                    <div class="home_hint-title">
+                                        {$model.title}<span style="float: right;">
+                                            {$model.priceText}
+                                        </span>
+                                    </div>
+                                </div>
+                                {/if}
+                                {/volist}
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- 场景 -->
+                    <div id="scene_list_div" class="home_prompt-hints" style="display: none;">
+                        {volist name="sceneArray" id="scene"}
+                        <div class="home_prompt-hint">
+                            <div class="home_hint-title">
+                                {$scene.scenename}
+                            </div>
+                            <div class="home_hint-content">
+                                {$scene.scenevalue}
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+
+                    <div class="chat_chat-input-actions">
+                        <div class="chat_chat-input-action clickable mode_js" id='model_button' title="模型">
+                            <i class="layui-icon">&#xe653;</i>
+                            <span>
+                                {$defaultmodelname}
+                        </div>
+                        <div class="chat_chat-input-action clickable role_js" title="角色">
+                            <i class="layui-icon">&#xe66f;</i><span></span>
+                        </div>
+                        <div class="chat_chat-input-action clickable" id='scene_button' title="场景"><i
+                                class="layui-icon">&#xe62a;</i></div>
+                        <input id='model' type="hidden" value='{$defaultmodelid}'>
+                        <input id='modelvalue' type="hidden" value='{$defaultmodelvalue}'>
+                        <input id='modelisimage' type="hidden" value='{$defaultmodelisimage}'>
+                        <input id='imageurl' type="hidden">
+                        <input id='blendimageurl' type="hidden">
+                        <input id='role' type="hidden" value=''>
+                        <div class="chat_chat-input-action clickable" id='all_style' title="亮色/暗色模式"><i
+                                class="layui-icon">&#xe68d;</i><span></div>
+                    </div>
+                    <!-- 输入 -->
+                    <div class="home_chat-input-panel-inner">
+                        <div class="chat_chat-input-actions" style="width:50px;align-items:center;">
+                            <div id="uploadpicbutton" class="chat_chat-input-action clickable" title="上传图片"
+                                style="margin:0;">
+                                <i class="layui-icon"></i>
+                            </div>
+                            <div id="sendvoicebutton" class="chat_chat-input-action clickable" title="发送语音"
+                                style="margin:0;">
+                                <i class="layui-icon"></i>
+                            </div>
+                        </div>
+                        <button id="recordingbutton" class="button_icon-button home_chat-input clickable button_primary"
+                            role="button" style="width:100%;padding:10px;display:none;">
+                            <div class="button_icon-button-text">按住 说话</div>
+                        </button>
+                        <textarea id="question" class="home_chat-input" placeholder="Ctrl + Enter 发送"
+                            rows="3"></textarea>
+                        <button id="textinputbutton"
+                            class="button_icon-button home_chat-input-send clickable button_primary" role="button"
+                            style="padding:0;">
+                            <div id="goplane" class="button_icon-button-icon no-dark"
+                                style="padding:19px 13px 19px 18px;margin:0;"><i class="layui-icon">&#xe609;</i></div>
+                            <div class="button_icon-button-text" style="padding:10px 0;margin:0;"><span id='go'
+                                    style="padding:10px 7px 10px 0;">发送</span><span
+                                    style="margin:0;padding:0;border-left:1px solid silver;"></span><i
+                                    class="layui-icon enter_js" style="font-size:12px;padding:10px;"></i></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录框 -->
+    <div id="mydialog" style="display: none;">
+        <div id="mytitle"
+            style="width: 300px; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;">
+        </div>
+        <div id="mycontent" style="width: 300px; height: 400px;padding: 10px;text-align: center;"></div>
+    </div>
+    <div class="modal-mask" id='chat_out' style="display: none;">
+        <div class="ui-lib_modal-container">
+            <div class="ui-lib_modal-header">
+                <div class="ui-lib_modal-title">导出聊天记录为 Markdown</div>
+                <div class="ui-lib_modal-close-btn" onclick="$('#chat_out').toggle()"><i class="layui-icon">&#x1006;</i>
+                </div>
+            </div>
+            <div class="ui-lib_modal-content">
+                <div class="markdown-body">
+                    <pre class="home_export-content"></pre>
+                </div>
+            </div>
+            <div class="ui-lib_modal-footer">
+                <div class="ui-lib_modal-actions">
+                    <div class="ui-lib_modal-action"><button class="button_icon-button button_border clickable copy_msg"
+                            copy='all_msg' role="button">
+                            <div class="button_icon-button-icon"><i class="layui-icon">&#xe655;</i></div>
+                            <div class="button_icon-button-text">全部复制</div>
+                        </button></div>
+                    <div class="ui-lib_modal-action"><button class="button_icon-button button_border clickable"
+                            role="button" onclick="download_msg()">
+                            <div class="button_icon-button-icon"><i class="layui-icon">&#xe601;</i></div>
+                            <div class="button_icon-button-text">下载文件</div>
+                        </button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notice" style="display:none;position: relative;height: 100%;">
+        <div style="height: 100%;overflow: auto;padding:20px;">
+            {$main_data.websiteinfocontent}
+        </div>
+    </div>
+    <div class="overlay">
+        <img src="" alt="展示图片">
+    </div>
+    <input type="file" id="uploadImage" onchange="previewImage()" accept="image/*" style="display:none;">
+    <input type="file" id="uploadBlendImage" onchange="previewImage(1)" accept="image/*" style="display:none;">
+    <iframe id=temp style="display:none;"></iframe>
+    <script src="__STATIC__/ai/js/jquery.min.js"></script>
+    <script src="__STATIC__/ai/js/crypto-js.min.js"></script>
+    <script src="__STATIC__/ai/js/jquery.qrcode.min.js"></script>
+    <script src="__STATIC__/ai/js/jquery.cookie.min.js"></script>
+    <script src="__STATIC__/ai/js/layui.js"></script>
+    <script src="__STATIC__/ai/js/remarkable.js"></script>
+    <script src="__STATIC__/ai/js/index.js?v=6.7.2508"></script>
+    <script src="__STATIC__/ai/js/clipboard.min.js"></script>
+    <script src="__STATIC__/ai/js/howler.min.js"></script>
+    <link rel="stylesheet" href="__STATIC__/ai/css/hightlight.css">
+    <script src="__STATIC__/ai/js/highlight.min.js"></script>
+    <script src="__STATIC__/ai/js/recorder.js"></script>
+    <script src="__STATIC__/ai/js/md5.js"></script>
+    <script>
+        function buy() {
+            buylayer = layer.open({
+                type: 1,
+                title: '充值',
+                area: ['350px', '400px'],
+                shade: 0.5,
+                scrollbar: true,
+                offset: ['calc(50% - 200px)', 'calc(50% - 175px)'],
+                fixed: true,
+                content: '{$rechargetext|raw}'
+            });
+        }
+        iswindowloginonly = false;
+        isthirdpartyloginonly = false;
+
+        thirdpartyloginurl  = '{$main_data.thirdpartyloginurl}';
+        isquestionsensor    = parseInt('{$main_data.isquestionsensor}');
+        isanswersensor      = parseInt('{$main_data.isanswersensor}');
+        isquestionfilter    = parseInt('{$main_data.isquestionfilter}');
+        isanswerfilter      = parseInt('{$main_data.isanswerfilter}');
+        websiterndstr       = '{$websiterndstr}';
+        welcomemessage      = decodeURIComponent(escape(atob('{$main_data.welcomemessage}')));
+        imagesiteurl = '{$main_data.imagesiteurl}';
+        isAndroidApp = '{$_GET.from|default=""}' == 'android' ? '1' : '0';
+        midjourneymodelid = '{$main_data.midjourneymodelid}';
+        midjourneymodelname = '{$main_data.midjourneymodelname}';
+        '{if $main_data.freetryshare > 0}'
+        freetryshare = '{$main_data.freetryshare}';
+        '{/if}'
+
+        '{if isset($_GET.i)}'
+        $.cookie('sharefromuserid', '{$_GET.i}', { expires: 1, path: '/' });
+        '{/if}'
+
+        '{if $main_data.iswebsiteinfo}'
+        if (!($.cookie('websiteinfotime')) || ($.cookie('websiteinfotime') != '{$main_data.websiteinfotime}')) {
+            layer.open({
+                type: 1,
+                title: '<div style="font-weight:bold;text-align:center">{$main_data.websiteinfotitle}</div>',
+                area: [(0.6 * $(document.body).width() > 380) ? '60%' : '380px', '60%'],
+                offset: ['20%', (0.6 * $(document.body).width() > 380) ? '20%' : (Number(($(document.body).width() - 380) / 2) + 'px')],
+                content: $('#notice'),
+                fixed: true,
+                shadeClose: true,
+                btn: ['已阅读，请下次再提醒', '已阅读，请不要再提醒本公告'],
+                btnAlign: 'c',
+                yes: function (index, layero) {
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    $.cookie('websiteinfotime', '{$main_data.websiteinfotime}');
+                    layer.close(index);
+                }
+            });
+        }
+        '{/if}'
+
+        '{if $main_data.isweixinlogin && $main_data.isthirdpartylogin}'
+            logintitleright = '<div style="display: flex;cursor:pointer;"><div style="width: 100%; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;" onclick="showwxlogin();">微信扫码登录</div><div style="width: 100%; height: 50px;background-color: #fff;color: #000;font-size: 16px;line-height: 50px;text-align: center;">邮箱密码登录</div></div>';
+            '{if $main_data.iswindowlogin}'
+                logintitleleft = '<div style="display: flex;cursor:pointer;"><div style="width: 100%; height: 50px;background-color: #fff;color: #000;font-size: 16px;line-height: 50px;text-align: center;">微信扫码登录</div><div style="width: 100%; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;" onclick="showuserlogin();">邮箱密码登录</div></div>';
+            '{else /}'
+                logintitleleft = '<div style="display: flex;cursor:pointer;"><div style="width: 100%; height: 50px;background-color: #fff;color: #000;font-size: 16px;line-height: 50px;text-align: center;">微信扫码登录</div><div style="width: 100%; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;" onclick="window.open(thirdpartyloginurl, \'_blank\');">第三方用户登录</div></div>';
+            '{/if}'
+        '{elseif $main_data.isweixinlogin}'
+            logintitleleft = '<div style="display: flex;"><div style="width: 100%; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;">微信扫码登录</div></div>';
+        '{elseif $main_data.isthirdpartylogin}'
+            '{if $main_data.iswindowlogin}'
+                iswindowloginonly = true;
+                logintitleright = '<div style="display: flex;"><div style="width: 100%; height: 50px;background-color: rgb(79, 128, 225);color: #fff;font-size: 16px;line-height: 50px;text-align: center;">邮箱密码登录</div></div>';
+            '{else /}'
+                isthirdpartyloginonly = true;
+            '{/if}'
+        '{/if}'
+        // 获取会话数据
+        if ($("#quota").text() == "") {
+            var html = '<div class="home_chat-message">' +
+                '<div style="width:calc(100% - 40px);top:50%;position:absolute;"><img src="{$main_data["contentlogo"]}" style="max-width:80%;margin:auto; opacity:0.5;"></div>' +
+                '<div class="home_chat-message-container">' +
+                '<div class="home_chat-message-item">' +
+                '<div class="markdown-body">' +
+                '<p>请先<span style="cursor:pointer;" onclick="showqrcode();"> 登录 </span>再提问，未授权用户无法使用</p>' +
+                '</div>' +
+                '</div>' +
+                '<div class="home_chat-message-actions">' +
+                '<div class="home_chat-message-action-date">' + getMyDate() + '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            $('.home_chat-body').append(html);
+        }
+    </script>
+    <script src="__STATIC__/ai/katex/katex.min.js"></script>
+    <script>
+    </script>
+    <!--
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            tex2jax: {
+                inlineMath: [],  // 禁用行内公式的自动解析
+                displayMath: []  // 禁用显示公式的自动解析
+            }
+        });
+    </script>
+    <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+</body>
+</html>

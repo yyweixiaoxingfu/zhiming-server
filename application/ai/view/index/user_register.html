@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户注册</title>
+    <style>
+        body {
+            color: rgba(0, 0, 0, .85);
+        }
+
+        .login-box,
+        .register-box {
+            width: 280px;
+        }
+
+        .login-page,
+        .register-page {
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            height: 100vh;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .card {
+            margin-bottom: 1rem;
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0 solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
+        }
+
+        .login-card-body,
+        .register-card-body {
+            background-color: #fff;
+            border-top: 0;
+            color: #666;
+            padding: 20px;
+        }
+
+        .card-body {
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            min-height: 1px;
+        }
+
+        .login-box-msg,
+        .register-box-msg {
+            margin: 0;
+            padding: 0 10px 10px;
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .mb-3,
+        .my-3 {
+            margin-bottom: 1rem !important;
+        }
+
+        .input-group:not(.has-validation)>.custom-file:not(:last-child) .custom-file-label,
+        .input-group:not(.has-validation)>.custom-file:not(:last-child) .custom-file-label::after,
+        .input-group:not(.has-validation)>.custom-select:not(:last-child),
+        .input-group:not(.has-validation)>.form-control:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .login-card-body .input-group .form-control,
+        .register-card-body .input-group .form-control {
+            border-right: 0;
+        }
+
+        .input-group>.custom-file,
+        .input-group>.custom-select,
+        .input-group>.form-control,
+        .input-group>.form-control-plaintext {
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 24px;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            box-shadow: inset 0 0 0 transparent;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .input-group-append {
+            margin-left: -1px;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .login-card-body .input-group .input-group-text,
+        .register-card-body .input-group .input-group-text {
+            background-color: transparent;
+            border-bottom-right-radius: .25rem;
+            border-left: 0;
+            border-top-right-radius: .25rem;
+            color: #777;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .input-group>.input-group-append>.btn,
+        .input-group>.input-group-append>.input-group-text,
+        .input-group>.input-group-prepend:first-child>.btn:not(:first-child),
+        .input-group>.input-group-prepend:first-child>.input-group-text:not(:first-child),
+        .input-group>.input-group-prepend:not(:first-child)>.btn,
+        .input-group>.input-group-prepend:not(:first-child)>.input-group-text {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .input-group-text {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding: .375rem .75rem;
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+        }
+
+        .justify-content-center {
+            -ms-flex-pack: center !important;
+            justify-content: center !important;
+        }
+
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -7.5px;
+            margin-left: -7.5px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: none;
+            padding: 3px 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="__STATIC__/ai/plugins/fontawesome-free/css/all.min.css">
+</head>
+
+<body class="login-page">
+    <div class="login-box">
+        <div class="card">
+            <div class="card-body login-card-body">
+
+                <form>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="email" placeholder="电子邮箱">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="mobile" placeholder="手机号">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="password" placeholder="密码">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="password2" placeholder="重复密码">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content: space-between;" class="input-group mb-3">
+                        <input type="text" class="form-control" id="captcha" maxlength="4" placeholder="验证码"  style="margin-right: 10px;border-bottom-right-radius:.25rem;border: 1px solid #ced4da;">
+                        <img src="{:captcha_src()}" alt="验证码" onclick="this.src='{:captcha_src()}?rid='+Math.random();">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">注册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/ai/js/jquery.min.js"></script>
+    <!-- <script src="__STATIC__/ai/js/md5.js"></script> -->
+    <script>
+        $('form').submit(function(event) {
+            event.preventDefault(); // 阻止表单默认提交行为 
+            if (($("#email").val() == "") || ($("#mobile").val() == "") || ($("#password").val() == "") || ($("#password2").val() == "") || ($("#captcha").val() == "")) {
+                parent.layer.msg("请将信息填写完整后再注册");
+                return;
+            }
+            if ($("#password").val() != $("#password2").val()) {
+                parent.layer.msg("两次录入的密码不一致");
+                return;
+            }
+            $.post("/index.php/member/login/user_register", {
+                userrndstr: '{$userrndstr}',
+                action: 'register',
+                email: $("#email").val(),
+                mobile: $("#mobile").val(),
+                password:$("#password").val(),
+                captcha: $("#captcha").val()
+            }, function(response) {
+                if (response.success) {
+                    $('html').html('<!DOCTYPE html><html><head><title>注册成功</title><style>.container{width:260px;height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Arial,sans-serif;font-size:20px;font-weight:bold;text-align:center}.container h1{margin:0;padding:0;color:#333}.container p{margin:30px;padding:0;color:#666}</style></head><body><div class="container"><h1>欢迎新用户</h1><p>您已完成注册</p></div></body></html>');
+                } else {
+                    parent.layer.msg(response.message);
+                }
+            }, "json");
+        });
+    </script>
+</body>
+
+</html>

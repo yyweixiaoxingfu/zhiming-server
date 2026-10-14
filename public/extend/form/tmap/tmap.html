@@ -1,0 +1,60 @@
+<div class="form-group col-lg-{$_layout[$name]['lg']|default='12'}
+    col-md-{$_layout[$name]['md']|default='12'}
+    col-sm-{$_layout[$name]['sm']|default='12'}
+    col-xs-{$_layout[$name]['xs']|default='12'}
+    js-tmap
+    {$extra_class|default=''}"
+     data-level="{$level == '' ? 12 : $level}"
+     id="form_group_{$name}">
+    <label class="col-xs-12" for="{$name}">{$title|htmlspecialchars}</label>
+    <div class="col-xs-12">
+        <input class="form-control tmap-address" id="tmap-address-{$name}" name="{$name}_address" type="text" value="{$address|default=''}" placeholder="请输入要搜索的地址">
+        {notempty name="$tips"}
+        <div class="help-block">{$tips|clear_js}</div>
+        {/notempty}
+        <div class="suggestionList" id="suggestionList-{$name}"></div>
+        <input class="form-control tmap-point" type="hidden" id="{$name}" name="{$name}" value="{$value|default=''}">
+        <div class="tmap push-10-t" id="tmap-canvas-{$name}"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://map.qq.com/api/gljs?v=1.exp&key={$ak|default=''}"></script>
+<script type="text/javascript" src="https://map.qq.com/api/gljs?v=1.exp&libraries=service&key={$ak|default=''}"></script>
+<style>
+    .tmap{
+        width:100%;
+        height:500px;
+        border: 1px solid #ccc;
+    }
+    .searchResultPanel{
+        border:1px solid #C0C0C0;
+        width:150px;
+        height:auto;
+        display:none;
+    }
+    .suggestionList {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        z-index: 9999;
+    }
+
+    .suggestionList li a {
+        margin-top: -1px;
+        background-color: #f6f6f6;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        display: block;
+    }
+
+    .suggestionList li .item_info{
+        font-size: 12px;
+        color:grey;
+
+    }
+    .suggestionList li a:hover:not(.header) {
+        background-color: #eee;
+    }
+</style>

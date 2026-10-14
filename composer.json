@@ -1,0 +1,53 @@
+{
+    "name": "zhiming/bazi-server",
+    "description": "知命罗盘 - 八字命理测算服务端，基于 ThinkPHP 5.1",
+    "type": "project",
+    "keywords": [
+        "thinkphp",
+        "bazi",
+        "fortune",
+        "ziwei",
+        "tarot",
+        "zhiming"
+    ],
+    "homepage": "https://gitee.com/adebei/zhiming-server",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "呀儿嘿嘿哈哈哈",
+            "email": "yyweiliaoxingfu81@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "topthink/framework": "5.1.*",
+        "topthink/think-captcha": "^2.0",
+        "topthink/think-image": "^1.0",
+        "topthink/think-helper": "^1.0",
+        "ezyang/htmlpurifier": "^4.9",
+        "nesbot/carbon": "2.72.6",
+        "weiwei/api-doc": "1.6",
+        "phpoffice/phpspreadsheet": "1.30.0",
+        "yansongda/pay": "2.*",
+        "phpmailer/phpmailer": "^6.5",
+        "postermaker/postermaker": "0.1.5",
+        "gentle/duckduckgo-api": "^0.2.0",
+        "alibabacloud/client": "^1.5",
+        "workerman/gateway-worker": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "application"
+        }
+    },
+    "extra": {
+        "think-path": "thinkphp"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "easywechat-composer/easywechat-composer": true,
+            "topthink/think-installer": true
+        }
+    }
+}

@@ -1,0 +1,23 @@
+.kadir .gg_btn{ display: inline-block; min-width: 100px; padding:0px 20px; height:40px; line-height:40px; background:#5c90d2; margin-right:15px; color:#fff; -webkit-border-radius:5px; border-radius:5px; text-align:center;}
+.kadir .gg_list_bar{ border: 1px solid #eee; padding:20px; margin-bottom:15px;}
+.kadir .gg_list_con{ -webkit-display: flex; -moz-display: flex; -ms-display: flex; -o-display: flex; display: flex;}
+.kadir .gg_list_con p{ padding-right:15px; line-height:40px;}
+.kadir .gg_list_con input{ height:40px; min-width:200px; border:1px solid #eee; padding:10px; margin-right:15px;}
+.kadir .gg_list_xmBar{-webkit-display: flex; -moz-display: flex; -ms-display: flex; -o-display: flex; display: flex; -webkit-flex-wrap: wrap; -mox-flex-wrap: wrap; -ms-flex-wrap: wrap; -o-flex-wrap: wrap; flex-wrap: wrap; padding-left:45px;}
+.kadir .gg_list_xmCon input{ height:40px; min-width:200px; border:1px solid #eee; padding:10px; margin-right:5px;}
+.kadir .gg_list_xmCon .gg_list_xmDel{ font-weight:700; color:#000; font-size:28px; margin-right:15px; line-height:40px;}
+.kadir .gg_del_btn{ background:#FF5722;}
+
+.kadir .guige_kucun_bar{ border:1px solid #ddd; border-collapse: collapse; width:100%;}
+.kadir .guige_kucun_bar td{ border: 1px solid #ddd; height:38px; padding: 3px 15px; vertical-align: middle;}
+.kadir .guige_kucun_bar tr,.kadir .guige_kucun_bar th{ border: 1px solid #ddd; height:38px; padding: 0px 15px;}
+.kadir .guige_kucun_input{ min-width:100px; height:30px; background:#f6f6f6; border:none;}
+.kadir .none{
+    display: none;
+}
+.kadir .webuploader-pick{padding: 0!important;}
+.kadir input[type='text']{max-width: 100px}
+.kadir .switch-sm{margin:0!important;}
+.imgAdd {width: 100%;height: 100%;display: flex;justify-content: center;align-items: center; border: dashed #999999 1px;font-size: 40px; color: #dddddd;cursor: pointer}
+.imgDel {display:none;position: absolute;width: 20px;color: #999; height: 20px;font-size: 13px;right:  -10px;top: -10px;border-radius: 50%;text-align: center; background: rgba(0,0,0,.1);}
+.imgRed {background-color: red;}

@@ -1,0 +1,30 @@
+<div class="js-transfer form-group col-lg-{$_layout[$name]['lg']|default='12'} col-md-{$_layout[$name]['md']|default='12'} col-sm-{$_layout[$name]['sm']|default='12'} col-xs-{$_layout[$name]['xs']|default='12'} {$extra_class|default=''}" data-name="{$name}" id="form_group_{$name}">
+    <div class="col-xs-5">
+        <label for="transfer-{$name}-list">{$title1|default='可选值'}</label>
+        <select class="form-control" id="transfer-{$name}-list" size="10" multiple="">
+            {volist name="fields" id="field"}
+            <option value="{$key}">{$field}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="col-xs-1" style="margin-top: 80px">
+        <button class="btn btn-square btn-default js-move-right" type="button"><i class="fa fa-fw fa-arrow-right"></i> 右移</button>
+        <br><br>
+        <button class="btn btn-square btn-default js-move-left" type="button"><i class="fa fa-fw fa-arrow-left"></i> 左移</button>
+    </div>
+    <div class="col-xs-5">
+        <label for="transfer-{$name}">{$title2|default='选择值'}</label>
+        <select class="form-control" id="transfer-{$name}" name="{$name}[]" size="10" multiple="">
+            {volist name="data" id="field"}
+            <option value="{$key}">{$field}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="col-xs-1" style="margin-top: 60px">
+        <button class="btn btn-square btn-default js-move-up" type="button"><i class="fa fa-fw fa-arrow-up"></i> 上移</button>
+        <br><br>
+        <button class="btn btn-square btn-default js-move-down" type="button"><i class="fa fa-fw fa-arrow-down"></i> 下移</button>
+        <br>
+    </div>
+    <div class="col-xs-12 help-block">操作提示：默认导出所有字段。双击字段可移动该字段到另一侧选框；按住“ctrl”键并点击字段可选择多个字段；按住“shift”键可连续选择字段；</div>
+</div>

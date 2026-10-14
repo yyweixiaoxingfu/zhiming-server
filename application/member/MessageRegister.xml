@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actions>
+    <action id="register">
+        <desc>注册验证码</desc>
+        <title>注册验证码</title>
+        <content>您的验证码为{code}，5分钟内有效！</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+    <action id="login">
+        <desc>登录验证码</desc>
+        <title>登录验证码</title>
+        <content>您的验证码为{code}，5分钟内有效！</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+    <action id="bind">
+        <desc>绑定手机号验证码</desc>
+        <title>绑定手机号验证码</title>
+        <content>您的验证码为{code}，5分钟内有效！</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+    <action id="modify">
+        <desc>修改手机号验证码</desc>
+        <title>修改手机号验证码</title>
+        <content>您的验证码为{code}，5分钟内有效！</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+    <action id="forget">
+        <desc>忘记密码验证码</desc>
+        <title>忘记密码验证码</title>
+        <content>您的验证码为{code}，5分钟内有效！</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+</actions>

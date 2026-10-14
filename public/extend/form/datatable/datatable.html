@@ -1,0 +1,118 @@
+<div class="form-group col-lg-{$_layout[$name]['lg']|default='12'} col-md-{$_layout[$name]['md']|default='12'} col-sm-{$_layout[$name]['sm']|default='12'} col-xs-{$_layout[$name]['xs']|default='12'} {$extra_class|default=''}" id="form_group_{$name}">
+    <label class="col-xs-12" for="{$name}">{$title|htmlspecialchars}</label>
+    <div class="col-sm-12">
+        <table class="table table-bordered table-striped" id="table-{$name}">
+            <thead>
+            <tr>
+                {volist name="fields" id="vo"}
+                {if $vo.type=='hidden'}
+                <th style="display:none">{$vo.title}</th>
+                {else}
+                <th >{$vo.title}</th>
+                {/if}
+                {/volist}
+
+                {if condition="$is_new"}
+                <th>操作</th>
+                {/if}
+            </tr>
+            </thead>
+            <tbody>
+            {php}$max_key = 0;{/php}
+            {empty name="data"}
+            <tr class="empty"><td colspan="{:count($fields)+1}" class="text-center text-muted">暂无数据</td></tr>
+            {else/}
+            {volist name="data" id="vo"}
+            {php}$item_id = $key; $max_key = max($max_key,$item_id);{/php}
+            <tr id="table-{$name}-tr-{$key}">
+                {volist name="fields" id="field"}
+                    {php}$k = $key;{/php}
+                    {switch name="field.type"}
+                        {case value="text"}
+                            <td><input class="form-control" type="text" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" placeholder="请填写..."></td>
+                        {/case}
+                        {case value="hidden"}
+                        <td style="display:none"><input class="form-control" type="hidden" name="{$name}[{$item_id}][{$key}]" id="{$key}" value="{$vo[$k]}" placeholder="请填写..."></td>
+                        {/case}
+                        {case value="static"}
+                        <td><input class="form-control" type="text" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" placeholder="请填写..." readonly></td>
+                        {/case}
+                        {case value="number"}
+                        <td><input class="form-control" type="number" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" placeholder="请填写..." {$field.extra_attr|raw|default=''}>
+                        {/case}
+                        {case value="select"}
+                            <td>
+                                <select class="form-control" name="{$name}[{$item_id}][{$key}]"  {$field.extra_attr|raw|default=''}>
+                                    <option value="">请选择...</option>
+                                    {volist name="field.options" id="option"}
+                                    <option value="{$key}" {$key == $vo[$k] ?= "selected"}>{$option|default=''}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        {/case}
+                        {case value="time"}
+                        <td>
+                            <input class="js-datetimepicker form-control" type="text" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" placeholder=""
+                                   data-locale="zh-cn"
+                                   data-format="{$field.format ? $field.format : 'HH:mm:ss'}"
+                                   {$field.extra_attr|raw|default=''}>
+                        </td>
+                        {/case}
+                        {case value="date"}
+                        <td>
+                            <input class="js-datepicker form-control" type="text" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" placeholder=""
+                                   data-date-format="{$field.format ? $field.format : 'yyyy-mm-dd'}"
+                                   {$field.extra_attr|raw|default=''}>
+                        </td>
+                        {/case}
+                        {case value="select_ajax"}
+                            <td>
+                                <select class="js-select-ajax form-control" data-url="{$field.url}" data-token="{$field.token}"
+                                        data-list-rows="15" {if $field.multiple}multiple{/if} name="{{$name}[{$item_id}][{$key}]{$field.multiple ?= '[]'}"
+                                        data-value="{$vo[$k]}"
+                                        data-allow-clear="true" data-placeholder="" {$field.extra_attr|raw|default=''}
+                                        data-parent_items="" data-next-items="">
+                                    <option></option>
+                                </select>
+                            </td>
+                        {/case}
+
+                        {case value="image"}
+                        <td>
+                            <input class="form-control image" type="hidden" name="{$name}[{$item_id}][{$key}]" value="{$vo[$k]}" id="{$key}">
+                            <div class="img" style="width: 40px; height: 40px;position: relative;">
+                                <div class="imgDel" style="display: block;">x</div>
+                                <div class="imgAdd" id="" style="display: none;">+</div>
+                                <!--<input type="file"  class="file_btn" style="display: none" onchange="uploadFile()">-->
+                                <img src="{$vo[$k]|get_file_path}" width="100%" height="100%" style="" tt="{$vo[$k]|get_file_path}">
+                            </div>
+                        </td>
+                        {/case}
+                    {/switch}
+                {/volist}
+                {if condition="$is_new"}
+                <td><button class="btn btn-sm btn-danger js-delete-line" type="button"><i class="fa fa-times"></i> 删除</button></td>
+                {/if}
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        {if condition="$is_new"}
+        <div class="push-10-t">
+            <button class="btn btn-xs btn-info push-5-r push-10 js-add-new" type="button" data-max="{$max_key}" data-table="{$name}" data-fields='{:json_encode($fields)}'><i class="fa fa-plus"></i> 添加新行</button>
+        </div>
+        {/if}
+        <div class="help-block">{$tips|raw|default=''}</div>
+    </div>
+</div>
+<div style="display: none" id="kadir_img">
+    <div class="img" style="width: 40px; height: 40px;position: relative;">
+        <div class="imgDel" >x</div>
+        <div class="imgAdd " id="">+</div>
+        <!--<input type="file"  class="file_btn" style="display: none" onchange="uploadFile()">-->
+        <img src ="" width="100%" height="100%" style="display: none">
+
+    </div>
+</div>
+<input type="file"  id="file_btn" style="display: none" onblur="this.value=''">

@@ -1,0 +1,38 @@
+<div class="form-group col-lg-{$_layout[$name]['lg']|default='12'} col-md-{$_layout[$name]['md']|default='12'} col-sm-{$_layout[$name]['sm']|default='12'} col-xs-{$_layout[$name]['xs']|default='12'} {$extra_class|default=''}" id="form_group_{$name}">
+    <label class="col-xs-12" for="{$name}">{$title|htmlspecialchars}</label>
+    <div class="col-sm-12">
+        <table class="table table-bordered table-striped select-table" id="table-{$name}">
+            <thead>
+            <tr>
+                <th style="width: 30px">排序</th>
+                {volist name="columns" id="vo"}
+                <th>{$vo}</th>
+                {/volist}
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="js-select-table-body">
+            {empty name="data"}
+            <tr class="empty"><td colspan="{:count($columns)+2}" class="text-center text-muted">暂无数据</td></tr>
+            {else/}
+            {volist name="data" id="vo"}
+            <tr id="table-{$name}-tr-{$key}">
+                <td></td>
+                {volist name="columns" id="column"}
+                <td>{$vo[$key]}</td>
+                {/volist}
+                <td>
+                    <button class="btn btn-xs btn-danger js-delete-line" type="button"><i class="fa fa-times"></i> 删除</button>
+                    <input type="hidden" name="{$name}[]" value="{$vo.id}">
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="push-10-t">
+            <button class="btn btn-xs btn-info push-5-r push-10 js-select-table-select" type="button" data-url="{$url}"><i class="fa fa-plus"></i> 选择{$title}</button>
+        </div>
+        <div class="help-block">{$tips|default=''}</div>
+    </div>
+</div>

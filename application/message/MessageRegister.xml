@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actions>
+    <action id="demo">
+        <desc>消息</desc>
+        <title>消息</title>
+        <content>您的验证码为{code}，5分钟内有效</content>
+        <keywords_desc>验证码:{code}</keywords_desc>
+        <is_queue>0</is_queue>
+        <sms_enabled>1</sms_enabled>
+        <email_enabled>0</email_enabled>
+        <info_enabled>0</info_enabled>
+        <notice_enabled>0</notice_enabled>
+    </action>
+</actions>

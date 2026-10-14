@@ -1,0 +1,140 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-break: break-all;
+            white-space: normal;
+            vertical-align: top;
+        }
+
+        .th1 {
+            width: 24px;
+            min-width: 24px;
+        }
+
+        .th2 {
+            width: 65px;
+            min-width: 65px;
+        }
+
+        @media (min-width:600px) {
+            .th1 {
+                width: 30px;
+                min-width: 24px;
+            }
+
+            .th2 {
+                width: 120px;
+                min-width: 60px;
+            }
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .pagination span,
+        .pagination a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .pagination span.current {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th class='th1' class='center'>序号</th>
+            <th class='th2' class='center'>时间 / 模型</th>
+            <th>问答记录</th>
+        </tr>
+        {if (!empty($result))}
+            {volist name="result" id="row"}
+                <tr>
+                    <td rowspan='2' class='center'>{$row['num']}</td>
+                    <td class='center'>{$row["realtime"]}</td>
+                    <td><pre>{$row["question"]}</pre></td>
+                </tr>
+                <tr>
+                    <td class='center'>{$row["modelname"]}</td>
+                    <td><pre>{$row["answer"]}</pre></td>
+                </tr>
+            {/volist}
+        {else/}
+            <tr><td colspan='3' class='center'>暂无对话记录</td></tr>
+        {/if}
+    </table>
+
+
+    <div class="pagination"><span style="border:0;">总计{$totalCount}条记录，每页{$limit}条，共 {$totalPage} 页</span></div>
+    <div class="pagination">
+        {if ($page <> 1)}
+            <a href="?userrndstr={$userrndstr}&page=1">首页</a>
+            <a href="?userrndstr={$userrndstr}&page={$prev_page}">上一页</a>
+        {/if}
+        <?php for ($i = $start_page; $i <= $end_page; $i++){ ?>
+            {if ($i == $page)}
+                <span class="current">{$i}</span>
+            {else/}
+                 <a href="?userrndstr={$userrndstr}&page={$i}">{$i}</a>
+            {/if}
+        <?php } ?>
+        {if ($page <> $totalPage)}
+            <a href="?userrndstr={$userrndstr}&page={$next_page}">下一页</a>
+            <a href="?userrndstr={$userrndstr}&page={$totalPage}">末页</a>
+        {/if}
+    </div>
+</body>
+</html>

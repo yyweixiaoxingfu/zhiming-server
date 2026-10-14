@@ -1,0 +1,119 @@
+<div class="kadir form-group col-lg-{$_layout[$name]['lg']|default='12'} col-md-{$_layout[$name]['md']|default='12'} col-sm-{$_layout[$name]['sm']|default='12'} col-xs-{$_layout[$name]['xs']|default='12'} {$extra_class|default=''}"
+     id="form_group_{$name}" data-kname="{$name}">
+    <label class="col-xs-12" for="{$name}">{$title|htmlspecialchars}</label>
+    <div class="col-sm-12">
+        <div class="col-sm-12" style="border: 1px solid #e6e6e6;border-radius: 4px;padding-top: 5px;">
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-xs-12 qiyong" style="padding: 5px;">
+                    <div class="gg_btn add_peces" >添加规格</div>
+                </div>
+                <div class="content_peces">
+                    {notempty name='spece'}
+                    {volist name="spece" id="vo"}
+                    <div class="col-xs-12 gg_list_bar lv1">
+                        <div class="gg_list_con">
+                            <p>规格</p>
+                            <input type="text" placeholder="规格名称（例如颜色）" name="{$name}[spu_item][]" class="v1"  data-id="" value="{$vo.value}" >
+                            <div class="gg_btn add_gui">添加规格项</div>
+                            <div class="gg_btn gg_del_btn">删除</div>
+                        </div>
+
+                        <div class="gg_list_xmBar">
+                            {notempty name='vo.sku_item_value'}
+                            {volist name="vo.sku_item_value" id="sku_vo"}
+                            <div class="gg_list_xmCon attr">
+                                <input type="text" placeholder="属性名称" class="v2" value="{$sku_vo}"
+                                       data-id="" spec-id="">
+                                <span class="gg_list_xmDel">×</span>
+                            </div>
+                            {/volist}
+                            {/notempty}
+
+
+                        </div>
+
+
+                    </div>
+                    {/volist}
+                    {/notempty}
+
+
+                </div>
+                <div class="col-xs-12 qiyong" style="padding: 5px;">
+                    <div class="gg_btn" id="jia" data-fields='{:json_encode($fields)}'>规格添加后刷新价目表</div>
+                </div>
+            </div>
+            <div class=" tab-content form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="lv_table_con">
+                <table class="guige_kucun_bar table table-bordered table-striped ">
+                    {notempty name='data'}
+                    <thead>
+                    <tr>
+                        {notempty name='spece'}
+                        {volist name="spece" id="vos"}
+                        <th width="15">{$vos.value}</th>
+                        {/volist}
+                        {/notempty}
+                        {notempty name='fields'}
+                        {volist name="fields" id="vof"}
+                        <th width="15">{$vof.title}</th>
+                        {/volist}
+                        {/notempty}
+
+                        <th width="5">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="data" id="vof" key='kf'}
+                    <tr id="{$vof.sku_item_id}">
+                        {volist name='vof.sku_item_name' id='vok'}
+                        <td>{$vok}</td>
+                        {/volist}
+                        <td style='display: none'><input type='hidden' name='{$name}[items][{$kf}][item_sku]' value={$vof.sku_item_name_value}></td>
+                        {volist name='fields' id='vofi'}
+
+                        {if $vofi.type=='text'}
+                        <td><input type="text"  name={$name}[items][{$kf}][{$vofi.value}] value="{$vof[$vofi['value']]}"/></td>
+                        {elseif $vofi.type=='image'}
+                        <td width="15">
+                            <input type="hidden"  class={$vofi.value} name={$name}[items][{$kf}][{$vofi.value}]] value="{$vof[$vofi['value']]}">
+                            <div class="img" style="width: 40px; height: 40px;position: relative;">
+                                <div class="imgDel"  style="{if $vof[$vofi['value']]>0 }display: block{else/}{/if}">x</div>
+                                <div class="imgAdd " style="{if $vof[$vofi['value']]>0 }display: none{else/}{/if}">+</div>
+                                <img src ={$vof[$vofi['value']]|get_file_path} width="100%" height="100%" style="{if $vof[$vofi['value']]>0 }{else/}display: none{/if}" >
+
+                            </div>
+                        </td>
+                        {/if}
+
+                        {/volist}
+                        <td style="display: none"><input class="sku_sort" type="hidden" name={$name}[items][{$kf}][sort]] value="{$kf}"/></td>
+                        <td><button class="btn btn-sm btn-danger js-delete-line action_del" type="button"><i class="fa fa-times"></i> 删除</button></td>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: none" id="kadir_img">
+                <div class="img" style="width: 40px; height: 40px;position: relative;">
+                    <div class="imgDel" >x</div>
+                    <div class="imgAdd " id="">+</div>
+                    <!--<input type="file"  class="file_btn" style="display: none" onchange="uploadChange()">-->
+                    <img src ="" width="100%" height="100%" style="display: none">
+
+                </div>
+            </div>
+
+            <input type="file"  id="file_btn" style="display: none" onblur="this.value=''">
+            <div class="sku_item_content">
+                {volist name='spece' id='spe'}
+                <input type="hidden" name="{$name}[sku_item_value][]" value={$spe.sku_item_value_str}>
+                {/volist}
+
+            </div>
+        </div>
+    </div>
+</div>

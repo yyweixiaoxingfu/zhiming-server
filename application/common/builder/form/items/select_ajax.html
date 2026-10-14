@@ -1,0 +1,11 @@
+<div class="form-group col-lg-{$_layout[$form[type].name]['lg']|default='12'} col-md-{$_layout[$form[type].name]['md']|default='12'} col-sm-{$_layout[$form[type].name]['sm']|default='12'} col-xs-{$_layout[$form[type].name]['xs']|default='12'} {$form[type].extra_class|default=''}" id="form_group_{$form[type].name}">
+    <label class="col-xs-12" for="{$form[type].name}">{$form[type].title|htmlspecialchars}</label>
+    <div class="col-xs-12">
+        <select class="js-select-ajax form-control" id="{$form[type].name}" data-url="{$form[type].url}" data-value="{$form[type].value|default=''}" data-token="{$form[type].token}" data-list-rows="{$form[type].list_rows|default=15}" {if $form[type].multiple}multiple{/if} name="{$form[type].name}{$form[type].multiple ?= '[]'}" data-allow-clear="true" data-placeholder="{$form[type].placeholder|default='请选择一项'}" {$form[type].extra_attr|raw|default=''} data-parent_items="{$form[type].parent_items}" data-next-items="{$form[type].next_items}">
+        <option></option>
+        </select>
+        {notempty name="form[type].tips"}
+        <div class="help-block">{$form[type].tips|raw|clear_js}</div>
+        {/notempty}
+    </div>
+</div>
