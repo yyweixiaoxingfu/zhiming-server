@@ -1,7 +1,7 @@
 # 知命罗盘 · 服务端
 
 > 八字 / 紫微 / 塔罗 / 姓名 等命理测算服务的后端，基于 ThinkPHP 5.1。
-> 配套前端见独立仓库 `zhiming-app`（uni-app）。
+> 配套前端见独立仓库 [`zhiming-client`](https://github.com/yyweixiaoxingfu/zhiming-client)（uni-app）。
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 
@@ -19,6 +19,16 @@
 | 消息 | `application/message` | 短信、站内信、模板消息 |
 | 财务 | `application/finance` | 账单、流水、对账 |
 | 页面与内容 | `application/page`、`application/system` | 单页、公告、帮助中心、Banner |
+
+## 后台界面预览
+
+基于 DolphinPHP（ZBuilder）的管理后台，测算词典、塔罗牌库、AI 模型等均可在后台在线维护：
+
+| 三命通会 · 干支词典 | 星座数据管理 |
+| --- | --- |
+| ![三命通会干支词典](./docs/images/admin-dict-sanhui.png) | ![星座数据管理](./docs/images/admin-xingzuo.png) |
+| **塔罗牌库（正逆位释义）** | **AI 模型管理（多平台接入）** |
+| ![塔罗牌库](./docs/images/admin-tarot.png) | ![AI模型管理](./docs/images/admin-ai-models.png) |
 
 ## 技术栈
 
